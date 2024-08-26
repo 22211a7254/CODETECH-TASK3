@@ -1,0 +1,65 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Number of samples
+num_samples = 1000
+
+# Generate synthetic data
+data = pd.DataFrame({
+    'Age': np.random.randint(18, 70, size=num_samples),
+    'Salary': np.random.normal(50000, 15000, size=num_samples),
+    'Experience': np.random.randint(0, 40, size=num_samples),
+    'Education_Level': np.random.choice(['High School', 'Bachelor', 'Master', 'PhD'], size=num_samples),
+    'Purchased': np.random.choice([0, 1], size=num_samples)  # Binary outcome, 0 for No, 1 for Yes
+})
+
+# Display the first few rows of the synthetic dataset
+print("First few rows of the synthetic dataset:")
+print(data.head())
+
+# Basic information about the dataset
+print("\nBasic information about the dataset:")
+print(data.info())
+
+# Summary statistics of the dataset
+print("\nSummary statistics of the dataset:")
+print(data.describe())
+
+# Checking for missing values
+print("\nMissing values in the dataset:")
+print(data.isnull().sum())
+
+# Distribution of numerical features
+print("\nHistograms of numerical features:")
+data.hist(figsize=(12, 10))
+plt.suptitle('Histograms of Numerical Features')
+plt.show()
+
+# Pairplot for numerical features to explore relationships
+print("\nPairplot to explore relationships between numerical features:")
+sns.pairplot(data)
+plt.suptitle('Pairplot of Numerical Features', y=1.02)
+plt.show()
+
+# Correlation matrix and heatmap
+print("\nCorrelation matrix:")
+correlation_matrix = data.corr()
+print(correlation_matrix)
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Heatmap')
+plt.show()
+
+# Detecting outliers using boxplots
+print("\nBoxplots to detect outliers:")
+for column in data.select_dtypes(include=[np.number]).columns:
+    plt.figure(figsize=(10, 4))
+    sns.boxplot(x=data[column])
+    plt.title(f'Boxplot of {column}')
+    plt.show()
